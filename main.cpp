@@ -5,17 +5,19 @@
 #include <string>
 
 
-void crearArchivos();
+void crearArchivos(int cantidad);
 void agregarTexto();
 void buscarArchivo();
 void agregarTexto2();
 using namespace std;
 
 int main() {
-
-    crearArchivos();
+    int cantidad;
+    cout<<"Cuantos archivos desea crear ingrese un numero\n";
+    cin>>cantidad;
+    crearArchivos(cantidad);
     int opc;
-    cout<<"Seleccione una opcion si desea agregar texto:1.archivos pares\n2.archivos impares\n";
+    cout<<"Seleccione una opcion si desea agregar texto:\n1.archivos pares\n2.archivos impares\n";
     cin>>opc;
     switch(opc){
         case 1:
@@ -38,13 +40,12 @@ void crearArchivos(int cantidad) {
     for(int i=0;i<cantidad;i++) {
         ofstream archivos;
         string nombreArchivo="file";
-        cout<<"Cuantos archivos desea crear ingrese un numero";
-        cin>>cantidad;
+
          if(cantidad%2==0){
              archivos.open("C:/Users/helac/OneDrive/Documentos/par/"+ nombreArchivo +" "+ to_string(i) +" ."+"txt");
              if (archivos.fail()) {
                  cout << "Error al intentar abrir el archivo." << endl;
-                 exit(1);
+
              }
 
              archivos.close();
@@ -55,7 +56,7 @@ void crearArchivos(int cantidad) {
              archivos.open("C:/Users/helac/OneDrive/Escritorio/impar"+ nombreArchivo +" "+ to_string(i) +" ."+"txt");
              if (archivos.fail()) {
                  cout << "Error al intentar abrir el archivo." << endl;
-                 exit(1);
+
              }
 
              archivos.close();
@@ -107,5 +108,12 @@ void agregarTexto2(){
 }
 
 void buscarArchivo(){
-
+    std::filesystem::directory_iterator directoryIterator("C:/Users/helac/OneDrive/Documentos/par/");
+    for (const auto& entry : directoryIterator) {
+        if (!std::filesystem::is_directory(entry.status())) {
+            std::cout << entry.path().filename() << " "
+                      << file_size(entry.path()) << std::endl;
+            cout<<"El archivo mas grande en la carpeta del primer ejercicio es:" ;
+        }
+    }
 }
